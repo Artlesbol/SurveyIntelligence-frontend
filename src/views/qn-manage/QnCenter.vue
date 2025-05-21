@@ -41,10 +41,10 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="0">所有</el-dropdown-item>
                   <el-dropdown-item command="1">调查问卷</el-dropdown-item>
-                  <el-dropdown-item command="2">考试问卷</el-dropdown-item>
-                  <el-dropdown-item command="3">投票问卷</el-dropdown-item>
-                  <el-dropdown-item command="4">报名问卷</el-dropdown-item>
-                  <el-dropdown-item command="5">打卡问卷</el-dropdown-item>
+                  <!-- <el-dropdown-item command="2">考试问卷</el-dropdown-item> -->
+                  <!-- <el-dropdown-item command="3">投票问卷</el-dropdown-item> -->
+                  <el-dropdown-item command="4">表单问卷</el-dropdown-item>
+                  <!-- <el-dropdown-item command="5">打卡问卷</el-dropdown-item> -->
                 </el-dropdown-menu>
               </el-dropdown>
 
@@ -95,6 +95,7 @@
                   <el-dropdown split-button class="leftside" size="mini" id="download" @command="selectExportType">
                     导出
                     <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item :command="beforeHandleCommand(indexMethod(index),'md')">导出MarkDown</el-dropdown-item>
                       <el-dropdown-item :command="beforeHandleCommand(indexMethod(index),'word')">导出Word</el-dropdown-item>
                       <el-dropdown-item :command="beforeHandleCommand(indexMethod(index),'pdf')">导出PDF</el-dropdown-item>
                     </el-dropdown-menu>
@@ -782,6 +783,30 @@ export default {
             console.log(err);
           })
           break;
+        case "md":  // 新增MarkDown导出逻辑
+          this.$axios({
+            method: 'post',
+            url: '/sm/export/md',  // 后端提供的导出MD接口
+            data: formData,
+          })
+          .then(res => {
+            loadingIns.close();
+            if (res.data.status_code === 1) {
+              var item = {
+                FILETYPE: 'md',
+                CNAME: res.data.filename,
+                ANNEXCONTENT: res.data.b64data
+              };
+              this.shows(item);
+            } else {
+              this.$message.error("文件下载失败！");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            loadingIns.close();
+          });
+          break;
       }
     },
     fileSaverPDF(url, name) {
@@ -886,7 +911,7 @@ export default {
     },
 
     shows(item) {
-      if (item.FILETYPE.substring(item.FILETYPE.lastIndexOf('.')+1,item.FILETYPE.length)=='docx') {
+      if (item.FILETYPE == 'docx' || item.FILETYPE == 'md') {
         const dataURLtoBlob = function (dataurl) {
           let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
               bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
