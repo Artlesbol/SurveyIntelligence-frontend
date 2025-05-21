@@ -2,7 +2,7 @@
   <div class="main">
     <el-carousel height="450px" >
       <el-carousel-item v-for="(item, index) in topImg" :key="index">
-        <img :src="item.url" style="width: 100%; height: 100%;" alt="">
+        <img :src="item.url" style="width: 100%; height: 100%; object-fit: cover;" alt="">
         <div class="cover">
           {{item.title}}<br>
           <span style="font-size: 35px">{{item.subTitle}}</span>
@@ -115,17 +115,17 @@ export default{
         {
           'title':'免费问卷调查系统',
           'subTitle':'Free Questionnaire System',
-          'url':'https://img-1304418829.cos.ap-beijing.myqcloud.com/6.jpg'
+          'url':'https://pic3.zhimg.com/v2-8dc9ccf48f1503cd41290e4367bededc_r.jpg'
         },
         {
          'title':'大数据统计与可视化',
          'subTitle':'Big data statistics and visualization',
-         'url':'https://img-1304418829.cos.ap-beijing.myqcloud.com/joshua-mayo-HASoyURgPMY-unsplash.jpg'
+         'url':'http://www.bigdatawuhan.com/kindeditor/attached/image/20220427/20220427115724_30074.png'
         },
         {
          'title':'多样化的辅助工具',
          'subTitle':'Diversified auxiliary tools',
-         'url':'https://img-1304418829.cos.ap-beijing.myqcloud.com/internet-banner.jpg'
+         'url':'https://img95.699pic.com/photo/50240/0942.jpg_wh300.jpg'
         },
       ],
       topImg2:[
@@ -140,7 +140,7 @@ export default{
          'url':'sign-in-5'
         },
         {
-         'title':'防疫志愿者',
+         'title':'活动志愿者',
          'subTitle':'轻松打卡 特色表单 一键获取地理位置',
          'url':'sign-in-7'
         },
