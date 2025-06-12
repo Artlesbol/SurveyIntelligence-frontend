@@ -112,33 +112,8 @@ export default {
       open: 1,
       title: '',
       description: '',
-      questions: [
-      //     {
-      //     question_id: 0,
-      //     id: 1,
-      //     type:'radio',
-      //     title:'第一个',
-      //     must: true, // 是否必填
-      //     isVote:true,//是否是投票题
-      //     description: '1111111', // 问题描述
-      //     options:[
-      //       {
-      //         title:'A', // 选项标题
-      //         id: 1 // 选项id
-      //       }
-      //     ],
-      //     row: 1, // 填空区域行数
-      //     score: 5, // 最大评分
-      // }
-      ],
-      answers: [
-      //     {
-      //   question_id: '1',
-      //   type: 'name',
-      //   ans: null,
-      //   ansList: [],
-      // },
-      ],
+      questions: [],
+      answers: [],
       type: ''
     }
   },

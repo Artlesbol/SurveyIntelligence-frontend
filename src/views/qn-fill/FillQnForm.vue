@@ -169,64 +169,7 @@ export default {
       mode: this.$route.query.mode,
       title: '',
       description: '',
-      questions: [
-      //     {
-      //   id: 1,
-      //   type:'radio',
-      //   title:'test',
-      //   must: true, // 是否必填
-      //   description: '', // 问题描述
-      //   options:[
-      //     {
-      //       hasNumLimit:true,
-      //       title:'11111', // 选项标题
-      //       id: 0 ,// 选项id
-      //       supply:11,
-      //       consume:0,
-      //     },
-      //     {
-      //       hasNumLimit:true,
-      //       title:'22222', // 选项标题
-      //       id: 1 ,// 选项id
-      //       supply:11,
-      //       consume:0,
-      //     }
-      //   ],
-      //   row:1, // 填空区域行数
-      //   score:10, // 最大评分
-      // },
-      //   {
-      //     id: 2,
-      //     type:'text',
-      //     title:'',
-      //     must: false, // 是否必填
-      //     description: '', // 问题描述
-      //     options:[
-      //       {
-      //         hasNumLimit:false,
-      //         title:'', // 选项标题
-      //         id: 0 ,// 选项id
-      //         supply:1,
-      //         consume:0,
-      //       }
-      //     ],
-      //     row:1, // 填空区域行数
-      //     score:10, // 最大评分
-      //   }],
-      // answers: [
-      //   {
-      //     question_id: '1',
-      //     type: '1',
-      //     ans: null,
-      //     ansList: [],
-      //   },
-      //   {
-      //     question_id: '2',
-      //     type: '2',
-      //     ans: null,
-      //     ansList: [],
-      //   },
-      ],
+      questions: [],
       answers: [],
       type: ''
     }

@@ -94,40 +94,6 @@ export default {
       pageSize: 10,
       pageSizes:[7,10,15],
       loading: true,
-      /*
-      binData: [
-        {
-          survey_id: 1,
-          title: '测试问卷1',
-          create_time: '2021/08/22 12:00',
-          recycling_num: 0,
-        },
-        {
-          survey_id: 2,
-          title: '测试问卷2',
-          create_time: '2021/08/22 12:00',
-          recycling_num: 10,
-        },
-        {
-          survey_id: 3,
-          title: '普通调查问卷',
-          create_time: '2021/08/22 12:00',
-          recycling_num: 100,
-        },
-        {
-          survey_id: 4,
-          title: '特殊调查问卷',
-          create_time: '2021/08/22 12:00',
-          recycling_num: 100,
-        },
-        {
-          survey_id: 5,
-          title: '已作废的问卷',
-          create_time: '2021/08/22 12:00',
-          recycling_num: 100,
-        },
-      ]
-       */
       binData: []
     }
   },

@@ -444,53 +444,6 @@ export default {
       },
       type: '1',
       questions: [],
-      // questions: [{
-      //   question_id: 123,
-      //   id: 1,
-      //   type: 'text',
-      //   title: '图片测试',
-      //   must: false, // 是否必填
-      //   description: '', // 问题描述
-      //   options: [
-      //     {
-      //       title: '', // 选项标题
-      //       id: 0 // 选项id
-      //     }
-      //   ],
-      //   row: 1, // 填空区域行数
-      //   score: 5, // 最大评分
-      //   imgList: [{
-      //     name: '1.jpg',
-      //     url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-      //   },{
-      //     name: '2.jpg',
-      //     url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
-      //   }],
-      //   videoList: [
-      //   ]
-      // },{
-      //   question_id: 123,
-      //   id: 2,
-      //   type: 'mark',
-      //   title: '视频测试',
-      //   must: false, // 是否必填
-      //   description: '', // 问题描述
-      //   options: [
-      //     {
-      //       title: '', // 选项标题
-      //       id: 0 // 选项id
-      //     }
-      //   ],
-      //   row: 1, // 填空区域行数
-      //   score: 5, // 最大评分
-      //   imgList: [],
-      //   videoList: [
-      //     {
-      //       name:"1.mp4",
-      //       url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-      //     }
-      //   ]
-      // }],
       outline: [],
       max_recycling: 10000,
       hasRecycleLimit: false,
@@ -519,14 +472,6 @@ export default {
         score: 5, // 最大评分
         imgList: [],
         videoList: [],
-        // imgList:[{
-        //   name:'1.jpg',
-        //   url:"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.616pic.com%2Fbg_w1180%2F00%2F22%2F20%2F2F89KQ0UnA.jpg&refer=http%3A%2F%2Fpic.616pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1632713364&t=82be18770c43c56fd28895cc938f6a0b"
-        // },],
-        // videoList:[{
-        //   name: "1.mp4",
-        //   url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-        // }]
       },
       willAddLogic: {
         question_id: 0,
@@ -549,111 +494,6 @@ export default {
           label: '评分题',
         }
       ],
-
-      // questions: [
-      //   {
-      //     id: 1,
-      //     type: 'radio',
-      //     title: '这是一个什么网站？',
-      //     description: '请考虑妥当后填写',
-      //     must: true,
-      //     options: [{
-      //       id: 1,
-      //       title: '问卷系统',
-      //     }, {
-      //       id: 2,
-      //       title: '出版系统',
-      //     }],
-      //     row: 0,
-      //     score: 0,
-      //   },
-      //   {
-      //     id: 2,
-      //     type: 'checkbox',
-      //     title: '软工小学期助教都有谁？',
-      //     description: '请考虑妥当后填写',
-      //     must: false,
-      //     options: [{
-      //       id: 1,
-      //       title: 'ZYH',
-      //     }, {
-      //       id: 2,
-      //       title: 'LKW',
-      //     },{
-      //       id: 3,
-      //       title: 'ZXH',
-      //     }, {
-      //       id: 4,
-      //       title: 'HZH',
-      //     }],
-      //     row: 0,
-      //     score: 0,
-      //   },
-      //   {
-      //     id: 3,
-      //     type: 'radio',
-      //     title: '软工小学期累不累',
-      //     description: '请考虑妥当后填写',
-      //     must: false,
-      //     options: [{
-      //       id: 1,
-      //       title: '累',
-      //     }, {
-      //       id: 2,
-      //       title: '非常累',
-      //     }],
-      //     row: 0,
-      //     score: 0,
-      //   },
-      //   {
-      //     id: 4,
-      //     type: 'text',
-      //     title: '您对小学期的评价如何？',
-      //     description: '请考虑妥当后填写',
-      //     must: false,
-      //     options: [{
-      //       id: 0,
-      //       title: '',
-      //     }],
-      //     row: 3,
-      //     score: 0,
-      //   },
-      //   {
-      //     id: 5,
-      //     type: 'mark',
-      //     title: '给小学期打个分吧~',
-      //     description: '请考虑妥当后填写',
-      //     must: true,
-      //     options: [{
-      //       id: 0,
-      //       title: '',
-      //     }],
-      //     row: 0,
-      //     score: 10,
-      //   },
-      // ],
-    //   outline: [
-    //   {
-    //     id: 1,
-    //     label: '1. 这是一个什么网站？',
-    //   },
-    //   {
-    //     id: 2,
-    //     label: '2. 软工小学期助教都有谁？',
-    //   },
-    //   {
-    //     id: 3,
-    //     label: '3. 软工小学期累不累',
-    //   },
-    //   {
-    //     id: 4,
-    //     label: '4. 您对小学期的评价如何？',
-    //   },
-    //   {
-    //     id: 5,
-    //     label: '5. 给小学期打个分吧~',
-    //   },
-    // ],
     }
   },
   components: {

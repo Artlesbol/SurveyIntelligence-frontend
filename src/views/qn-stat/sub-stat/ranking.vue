@@ -74,44 +74,7 @@ export default {
         pageSizes:[5,10,15],
         status_code:1,
         message:"success",
-        submits:[
-        {
-            score:11,
-            submit_time:"2021/08/28 20:18",
-            rank:1,
-            num:1,
-            submit_id:193,
-            username:"huangzehuan",
-            is_valid:true,
-            qn_id:161,
-            answer_num:6,
-            answer_percent:"100.00%"
-        },
-        {
-            score:6,
-            submit_time:"2021/08/28 15:27",
-            rank:2,
-            num:2,
-            submit_id:173,
-            username:"MissTong",
-            is_valid:true,
-            qn_id:161,
-            answer_num:6,
-            answer_percent:"100.00%"
-        },
-        {
-            score:5,
-            submit_time:"2021/08/28 20:26",
-            rank:3,
-            num:3,
-            submit_id:194,
-            username:"liyu",
-            is_valid:true,
-            qn_id:161,
-            answer_num:6,
-            answer_percent:"100.00%"
-        }
-        ]
+        submits:[]
       }
    },
    methods:{

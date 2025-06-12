@@ -16,12 +16,6 @@ export default {
     return {
       isLocated:false,
       locationInfo: {
-        // ip: '',
-        // country: '中国',
-        // province: '北京市',
-        // city: '北京市',
-        // district: '海淀区',
-        // location: '116.310316,39.956074',
         ip: '',
         country: '',
         province: '',

@@ -14,32 +14,7 @@ export default {
     series_data: [],
   },
   data () {
-    return {
-      // legend_data:['a','b','c','d'],//列选项
-      // x_data:['d','b','c'],//行选项
-      // series_data:[
-      //       {
-      //           name: 'a',//列选项
-      //           type: 'line',
-      //           data: [0,33.33,20]//该列选项在每个行选项中所占的百分比
-      //       },
-      //       {
-      //           name: 'b',
-      //           type: 'line',
-      //           data: [66.66,0,0]
-      //       },
-      //       {
-      //           name: 'c',
-      //           type: 'line',
-      //           data: [33.33,66.66,20]
-      //       },
-      //       {
-      //           name: 'd',
-      //           type: 'line',
-      //           data: [0,0,60]
-      //       },
-      //   ]
-    }
+    return {}
   },
   mounted(){
     //页面加载完成后,才执行

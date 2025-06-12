@@ -198,25 +198,7 @@ export default {
       is_released: "default",
       is_collected: 0,
       qn_type: 0,
-      QnList: [
-        // {
-        //     title:'易灿和他的问卷',
-        //     survey_id:19373000,
-        //     recycling_num: 8,
-        //     create_time:'2021/6/10 5:10',
-        //     is_released: false,
-        //     is_deleted: false,
-        //     is_collected: false,
-        // },
-        // {
-        //     title:'nn和他的问卷',
-        //     survey_id:19373000,
-        //     recycling_num: 1118,
-        //     create_time:'2021/6/10 23:10',
-        //     is_released: true,
-        //     is_collected: true,
-        // },
-      ],
+      QnList: [],
     }
   },
   methods:{

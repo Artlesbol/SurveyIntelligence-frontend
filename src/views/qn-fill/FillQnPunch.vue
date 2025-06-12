@@ -132,56 +132,8 @@ export default {
       locationInfo: '',
       title: '疫情填报',
       description: '',
-      questions: [
-        // {
-        //   id: 1,
-        //   type: 'location',
-        //   title: '地理位置填报',
-        //   must: true, // 是否必填
-        //   description: '', // 问题描述
-        //   options: [
-        //     {
-        //       title: '', // 选项标题
-        //       id: 0 // 选项id
-        //     }
-        //   ],
-        //   row: 1, // 填空区域行数
-        //   score: 10, // 最大评分
-        // },
-        // {
-        //   id: 2,
-        //   type: 'radio',
-        //   title: '昨天有没有加班？',
-        //   must: true, // 是否必填
-        //   description: '谨慎填写', // 问题描述
-        //   options: [
-        //     {
-        //       title: '是', // 选项标题
-        //       id: 1 // 选项id
-        //     },
-        //     {
-        //       title: '否', // 选项标题
-        //       id: 2 // 选项id
-        //     },
-        //   ],
-        //   row: 1, // 填空区域行数
-        //   score: 10, // 最大评分
-        // }
-      ],
-      answers: [
-        // {
-        //   question_id: '1',
-        //   type: 'location',
-        //   ans: null,
-        //   ansList: [],
-        // },
-        // {
-        //   question_id: '2',
-        //   type: 'radio',
-        //   ans: null,
-        //   ansList: [],
-        // },
-    ],
+      questions: [],
+      answers: [],
       type: ''
     }
   },

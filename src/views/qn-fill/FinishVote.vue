@@ -37,76 +37,7 @@ export default {
   data(){
     return{
       rootUrl: this.GLOBAL.baseUrl,
-      voteQuestions: [
-        // {
-        //   question_id: 1,
-        //   id: 1,
-        //   type:'radio',
-        //   title:'第一题',
-        //   must: false, // 是否必填
-        //   isVote:true,//是否是投票题
-        //   description: '', // 问题描述
-        //   max_num: 12,//投票人数最多的选项的人数
-        //   options:[
-        //     {
-        //       title:'A.不太行', // 选项标题
-        //       id: 1 ,// 选项id
-        //       num: 2,//**********选该项人数
-        //     },
-        //     {
-        //       title:'B.一般般', // 选项标题
-        //       id: 2 ,// 选项id
-        //       num: 8,
-        //     },
-        //     {
-        //       title:'C.挺好的', // 选项标题
-        //       id: 3 ,// 选项id
-        //       num: 12,
-        //     },
-        //     {
-        //       title:'D.非常好', // 选项标题
-        //       id:4 ,// 选项id
-        //       num: 9,
-        //     }
-        //   ],
-        //   row: 1, // 填空区域行数
-        //   score: 5, // 最大评分
-        // },
-        // {
-        //   question_id: 2,
-        //   id: 2,
-        //   type:'checkbox',
-        //   title:'第二题',
-        //   must: true, // 是否必填
-        //   isVote:true,//是否是投票题
-        //   description: '', // 问题描述
-        //   max_num: 18,//投票人数最多的选项的人数
-        //   options:[
-        //     {
-        //       title:'A', // 选项标题
-        //       id: 1 ,// 选项id
-        //       num: 15,//**********选该项人数
-        //     },
-        //     {
-        //       title:'B', // 选项标题
-        //       id: 2 ,// 选项id
-        //       num: 6,
-        //     },
-        //     {
-        //       title:'C', // 选项标题
-        //       id: 3 ,// 选项id
-        //       num: 18,
-        //     },
-        //     {
-        //       title:'D', // 选项标题
-        //       id:4 ,// 选项id
-        //       num: 3,
-        //     }
-        //   ],
-        //   row: 1, // 填空区域行数
-        //   score: 5, // 最大评分
-        // },
-      ]
+      voteQuestions: []
     }
   },
   methods: {
