@@ -532,6 +532,7 @@ export default {
           this.resetWillAdd();
         }
       }
+      this.saveQnInfo("actionSave", "3")
     },
     addVoteRadio(){
       this.willAddQuestion.isVote=true;
@@ -615,6 +616,7 @@ export default {
       });
     },
     publish() {
+      this.saveQnInfo("actionSave", "3")
       if (this.questions.length === 0) {
         this.$message.error("题目为空，无法发布！");
         return;

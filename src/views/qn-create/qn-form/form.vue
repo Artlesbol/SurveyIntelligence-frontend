@@ -53,9 +53,15 @@
                     <i class="el-icon-discount"></i>
                     <span class="chooseLabel">学号 </span>
                     <i class="el-icon-circle-plus type-icon" @click="addStuID"></i>
-<!--                    <i class="el-icon-male"></i>-->
-<!--                    <span class="chooseLabel">性别 </span>-->
-<!--                    <i class="el-icon-circle-plus type-icon" @click="addSex"></i>-->
+                  </div>
+
+                  <div class="ques-type">
+                    <i class="el-icon-male"></i>
+                    <span class="chooseLabel">性别 </span>
+                    <i class="el-icon-circle-plus type-icon" @click="addSex"></i>&emsp;&emsp;
+                    <i class="el-icon-school"></i>
+                    <span class="chooseLabel">学校 </span>
+                    <i class="el-icon-circle-plus type-icon" @click="addSchool"></i>
                   </div>
 
                   <div class="ques-type">
@@ -66,12 +72,6 @@
                     <span class="chooseLabel">邮箱 </span>
                     <i class="el-icon-circle-plus type-icon" @click="addEmail"></i>
                   </div>
-<!--                  <div class="ques-type">-->
-<!--                    &emsp;&emsp;-->
-<!--                    <i class="el-icon-school"></i>-->
-<!--                    <span class="chooseLabel">学校 </span>-->
-<!--                    <i class="el-icon-circle-plus type-icon" @click="addSchool"></i>-->
-<!--                  </div>-->
                 </div>
               </div>
             </el-tab-pane>
@@ -611,8 +611,8 @@ export default {
         {
           value: 'email',
           label: '邮箱'
-      },
-    ],
+        },
+      ],
     }
   },
   components: {
@@ -898,6 +898,7 @@ export default {
           this.resetWillAdd();
         }
       }
+      this.saveQnInfo("actionSave", "4")
     },
     resetWillAdd(){
       this.willAddQuestion={
@@ -970,6 +971,7 @@ export default {
       }
       this.qsLogicDialogVisible = false;
       this.resetLogic();
+      this.saveQnInfo("actionSave", "4")
     },
     logic: function (index) {
       this.logicIndex = index-1;
@@ -1048,6 +1050,7 @@ export default {
       });
     },
     publish() {
+      this.saveQnInfo("actionSave", "4")
       if (this.questions.length === 0) {
         this.$message.error("题目为空，无法发布！");
         return;

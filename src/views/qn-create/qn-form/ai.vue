@@ -1,5 +1,5 @@
 <template>
-  <div class="investigation">
+  <div class="edit-ai">
     <el-header class="header">
       <edit-header
           :title="title"
@@ -18,34 +18,33 @@
     </el-header>
 
     <el-container class="container">
-
       <el-aside class="side">
         <el-tabs v-model="activeName" @tab-click="initOutline">
 
-            <el-tab-pane label="题目类型" name="first">
-              <div class="edit">
-                <div class="ques-type">
-                  <i class="el-icon-check"></i>
-                  <span> 单选题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                  <i class="el-icon-circle-plus type-icon" @click="willAddQuestion.type='radio';qsEditDialogVisible=true"></i>
-                </div>
-                <div class="ques-type">
-                  <i class="el-icon-finished"></i>
-                  <span> 多选题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                  <i class="el-icon-circle-plus type-icon" @click="willAddQuestion.type='checkbox';qsEditDialogVisible=true"></i>
-                </div>
-                <div class="ques-type">
-                  <i class="el-icon-edit-outline"></i>
-                  <span> 填空题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                  <i class="el-icon-circle-plus type-icon" @click="willAddQuestion.type='text';qsEditDialogVisible=true"></i>
-                </div>
-                <div class="ques-type">
-                  <i class="el-icon-star-off"></i>
-                  <span> 评分题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                  <i class="el-icon-circle-plus type-icon" @click="willAddQuestion.type='mark';qsEditDialogVisible=true"></i>
-                </div>
+          <el-tab-pane label="题目类型" name="first">
+            <div class="edit">
+              <div class="ques-type">
+                <i class="el-icon-check"></i>
+                <span> 单选题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+                <i class="el-icon-circle-plus type-icon" @click="addQuestionType('radio')"></i>
               </div>
-            </el-tab-pane>
+              <div class="ques-type">
+                <i class="el-icon-finished"></i>
+                <span> 多选题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+                <i class="el-icon-circle-plus type-icon" @click="addQuestionType('checkbox')"></i>
+              </div>
+              <div class="ques-type">
+                <i class="el-icon-edit-outline"></i>
+                <span> 填空题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+                <i class="el-icon-circle-plus type-icon" @click="addQuestionType('text')"></i>
+              </div>
+              <div class="ques-type">
+                <i class="el-icon-star-off"></i>
+                <span> 评分题&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+                <i class="el-icon-circle-plus type-icon" @click="addQuestionType('mark')"></i>
+              </div>
+            </div>
+          </el-tab-pane>
 
           <el-tab-pane label="问卷大纲" name="second">
             <div class="outline">
@@ -75,9 +74,21 @@
           <div class="content">
             <el-row class="ques-block" v-for="item in questions" :key="item.id" @mouseover.native="hoverItem=item.id">
 
-              <el-col :span="16" class="block-content">
+              <el-col :span="18" class="block-content">
                 <div class="block-title">
                   {{ item.id }}. {{ item.title }} <span class="must" v-if="item.must">(必填)</span>
+                </div>
+
+                <div class="block-info" v-if="item.type==='name' || item.type==='stuId' || item.type==='class' || item.type==='school'
+                          ||item.type==='phone' || item.type==='email' ">
+                  <el-input placeholder="请输入内容" style="margin-left: 10px"
+                      >
+                  </el-input>
+                </div>
+
+                <div class="block-choice" v-if="item.type==='sex'">
+                  <div style="padding-bottom: 10px"><el-radio value="0">男</el-radio></div>
+                  <div><el-radio value="0">女</el-radio></div>
                 </div>
 
                 <div
@@ -121,12 +132,13 @@
 
                   <!--                  单选-->
                   <el-radio v-if="item.type==='radio'" value="0">
-                    {{ ans.title }}
+                    {{ ans.title }}<span style="color: #aaaaaa;font-size: small;margin-left: 15px" v-if="ans.hasNumLimit">剩余{{ans.supply-ans.consume}}&emsp;总计{{ans.supply}}</span>
                   </el-radio>
 
                   <!--                  多选-->
                   <el-checkbox v-if="item.type==='checkbox'" value="0">
                     {{ ans.title }}
+                    <span style="color: #aaaaaa;font-size: small;margin-left: 15px" v-if="ans.hasNumLimit">剩余{{ans.supply-ans.consume}}&emsp;总计{{ans.supply}}</span>
                   </el-checkbox>
 
                   <!--                  填空-->
@@ -141,7 +153,7 @@
                       placeholder="请输入内容"
                       v-bind="ans.title">
                   </el-input>
-                  </div>
+                </div>
 
                 <div class="block-choice" v-if="item.type==='mark'">
                   <!--                  评分-->
@@ -154,7 +166,7 @@
                 </div>
               </el-col>
 
-              <el-col :span="8" class="block-button" style="text-align: right" v-if="hoverItem===item.id">
+              <el-col :span="6" class="block-button" style="text-align: right" v-if="hoverItem===item.id">
                 <el-button-group>
                   <el-tooltip class="item" effect="light" content="编辑" placement="bottom" open-delay="400">
                     <el-button class="bt" type="primary" icon="el-icon-edit" @click="edit(item.id)"></el-button>
@@ -179,16 +191,58 @@
 
             </el-row>
           </div>
-
         </div>
       </el-main>
 
+      <el-aside class="ai-side" width="300px">
+        <div class="ai-panel">
+          <div class="ai-header">
+            <h3>AI生成问卷</h3>
+          </div>
+          
+          <div class="ai-content">
+            <el-input
+                type="textarea"
+                :rows="10"
+                placeholder="请输入问卷描述，AI将根据您的描述生成问卷内容。例如：'创建一份关于大学生学习习惯的调查问卷，包含单选、多选和填空题'。"
+                v-model="aiPrompt">
+            </el-input>
+            
+            <div class="ai-buttons">
+              <el-button 
+                  :type="questions.length === 0 ? 'primary' : 'danger'" 
+                  @click="generateQuestionnaire" 
+                  :loading="isGenerating"
+                  style="width: 100%; margin-bottom: 10px;">
+                {{questions.length === 0 ? '生成问卷' : '重新生成'}}<br>
+                <span style="font-size: 12px; ">
+                  (DeepSeek-R1-Qwen3-8B)
+                </span>
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </el-aside>
     </el-container>
 
-    <el-dialog :title="qsEditDialogTitle" :visible.sync="qsEditDialogVisible"  :before-close="cancel_pre" class="dialog" >
-      <el-form ref="form" :model="willAddQuestion" label-width="100px">
-        <el-form-item label="题目类型" >
-          <el-select :disabled="selectDisAble" v-model="willAddQuestion.type" placeholder="请选择题目类型" @change="typeChange">
+    <el-dialog
+      :visible.sync="isGenerating"
+      width="400px"
+      :close-on-click-modal="false"
+      :show-close="false"
+      class="dialog"
+      custom-class="ai-wait-dialog"
+    >
+      <div style="text-align:center;padding:40px 0;">
+        <i class="el-icon-loading" style="font-size:48px;color:#409EFF;"></i>
+        <div style="margin-top:20px;font-size:18px;">AI正在生成问卷，大约需要60秒，请稍候…</div>
+      </div>
+    </el-dialog>
+
+    <el-dialog :visible.sync="qsEditDialogVisible" :title="qsEditDialogTitle" :before-close="cancel_pre" class="dialog" >
+      <el-form class="dialog-form" ref="form" label-width="80px">
+        <el-form-item label="题目类型">
+          <el-select v-model="willAddQuestion.type" placeholder="请选择题目类型" :disabled="selectDisAble">
             <el-option
                 v-for="item in allType"
                 :key="item.value"
@@ -223,7 +277,6 @@
 
           </el-form-item>
           <el-button type="primary" plain class="addOptionButton" @click="addOption" style="margin-bottom: 20px">新增选项</el-button>
-          <!-- <el-button type="primary" plain class="addOptionButton" @click="dialogVisibleAsso=true">添加关联</el-button> -->
         </template>
 
         <template v-if="willAddQuestion.type==='text'" >
@@ -280,6 +333,7 @@
         </el-row>
       </span>
     </el-dialog>
+
     <el-dialog :visible.sync="qsLinkDialogVisible" :title="qsLinkDialogTitle" class="linkDialog" :show-close="false" width="800px" >
       <el-row>
         <el-col span="8" style="text-align: center">
@@ -406,12 +460,17 @@ import saveDataApi from "@/utils/saveDataApi";
 import user from "@/store/user";
 
 export default {
-  name: "investigation",
+  name: "EditAI",
   mixins: [getDataApi, saveDataApi],
   data() {
     return {
-      logicQuestionState: 0,  // 用于判断用户是否更改关联问题设置
-      logicOptionState: 0,    // 用于判断用户是否更改关联选项设置
+      // AI生成相关
+      aiPrompt: "",
+      isGenerating: false,
+      
+      // 以下与edit-ai.vue相同
+      logicQuestionState: 0,
+      logicOptionState: 0,
 
       uploadImgUrl: this.GLOBAL.backUrl + 'upload/image',
       uploadVideoUrl: this.GLOBAL.backUrl + 'upload/video',
@@ -426,13 +485,13 @@ export default {
       qsLinkDialogVisible: false,
       dialogVisibleAsso: false,
       qsLinkDialogTitle: "发布成功！",
-      settingDialogTitle: "高级设置",   // 高级设置弹框的标题
-      settingDialogVisible: false,     // 高级设置对话框可见性
-      closingDate: null,   // 高级设置中问卷回收的截止日期
-      isLogic: true,      // 问卷是否引入关联逻辑
-      isReleased: false,   // 是否发布
+      settingDialogTitle: "高级设置",
+      settingDialogVisible: false,
+      closingDate: null,
+      isLogic: true,
+      isReleased: false,
       editIndex: 0,
-      logicIndex: 0,          // 当前添加题目逻辑的问题ID
+      logicIndex: 0,
       selectDisAble: false,
       hoverItem: 0,
       activeName: 'first',
@@ -442,7 +501,7 @@ export default {
         children: 'children',
         label: 'label'
       },
-      type: '1',
+      type: '6',
       questions: [],
       outline: [],
       max_recycling: 10000,
@@ -457,19 +516,19 @@ export default {
         id: 0,
         type: '',
         title: '',
-        must: false, // 是否必填
-        is_shown: true,   // 是否显示
-        last_question: 0,   // 前导问题
-        last_option: 0,     // 前导选项
-        description: '', // 问题描述
+        must: false,
+        is_shown: true,
+        last_question: 0,
+        last_option: 0,
+        description: '',
         options:[
           {
-            title: '', // 选项标题
-            id: 1 // 选项id
+            title: '',
+            id: 1
           }
         ],
-        row: 1, // 填空区域行数
-        score: 5, // 最大评分
+        row: 1,
+        score: 5,
         imgList: [],
         videoList: [],
       },
@@ -500,7 +559,10 @@ export default {
     editHeader,
   },
   methods: {
-    //---------------------------Image and video--------------------------------//
+    addQuestionType(type) {
+      this.willAddQuestion.type = type;
+      this.qsEditDialogVisible = true;
+    },
     upLoadImage(file) {
       const formData = new FormData();
       formData.append('image', file.file);
@@ -611,9 +673,10 @@ export default {
       console.log(file, fileList);
       this.$message("移除成功")
     },
-    //--------------------------------------------------------------------------//
     autoSave() {
-      this.saveQnInfo('autosave', '1');
+      if (!this.isGenerating) {
+        this.saveQnInfo('autosave', '6'); // AI问卷类型为6
+      }
     },
     genCodeAgain() {
       const formData = new FormData();
@@ -625,7 +688,7 @@ export default {
       })
       .then(res => {
         if (res.data.status_code === 1) {
-          this.linkShare = this.GLOBAL.baseUrl + "/fill?mode=1&code=" + res.data.code;
+          this.linkShare = this.GLOBAL.baseUrl + "/fill_ai?mode=1&code=" + res.data.code;
 
           if (this.qrcode == null) {
             this.qrcode = new QRCode(document.getElementById("qrcode_2"), {
@@ -674,148 +737,17 @@ export default {
     publishSuccess:function (){
       this.qsLinkDialogVisible=true;
     },
-    edit:function (index){
+    copy: function (index) {
       index--;
-      this.willAddQuestion = {
-        question_id:this.questions[index].question_id,
-        id: this.questions[index].id,
-        type: this.questions[index].type,
-        title: this.questions[index].title,
-        must: this.questions[index].must,
-        description: this.questions[index].description,
-        options: JSON.parse(JSON.stringify(this.questions[index].options)),
-        row: this.questions[index].row,
-        score: this.questions[index].score,
-        is_shown: this.questions[index].is_shown,
-        last_question: this.questions[index].last_question,
-        last_option: this.questions[index].last_option,
-        imgList: JSON.parse(JSON.stringify(this.questions[index].imgList)),
-        videoList: JSON.parse(JSON.stringify(this.questions[index].videoList)),
-      };
-      this.editIndex = index;
-      this.selectDisAble = true;
-      this.qsEditDialogTitle = "编辑题目";
-      this.qsEditDialogVisible = true;
-    },
-    isExistEmptyOption:function (){
-      for(let i=0;i<this.willAddQuestion.options.length;i++){
-        if(this.willAddQuestion.options[i].title==='') return true;
-      }
-      return false;
-    },
-    isExistSameOption:function (){
-      for(let i=0;i<this.willAddQuestion.options.length;i++){
-        for(let j=0;j<this.willAddQuestion.options.length;j++){
-          if(i!==j&&this.willAddQuestion.options[i].title===this.willAddQuestion.options[j].title) return true;
-        }
-      }
-      return false;
-    },
-    dialogConfirm(){
-      let index = this.editIndex;
-      if(this.qsEditDialogTitle==="编辑题目") {
-        if (this.willAddQuestion.title === '') {
-          this.$message({
-            type: 'error',
-            message: '标题不能为空!'
-          });
-        }
-        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistEmptyOption()){
-          this.$message({
-            type: 'error',
-            message: '选项名不能为空!'
-          });
-        }
-        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistSameOption()){
-          this.$message({
-            type: 'error',
-            message: '选项名不能重复!'
-          });
-        }
-        else {
-          this.questions[index].id = this.willAddQuestion.id;
-          this.questions[index].row = this.willAddQuestion.row;
-          this.questions[index].must = this.willAddQuestion.must;
-          this.questions[index].description = this.willAddQuestion.description;
-          this.questions[index].title = this.willAddQuestion.title;
-          this.questions[index].options = this.willAddQuestion.options;
-          this.questions[index].score = this.willAddQuestion.score;
-          this.questions[index].is_shown = this.willAddQuestion.is_shown;
-          this.questions[index].last_question = this.willAddQuestion.last_question;
-          this.questions[index].last_option = this.willAddQuestion.last_option;
-          this.questions[index].options = JSON.parse(JSON.stringify(this.willAddQuestion.options));
-          this.questions[index].imgList=JSON.parse(JSON.stringify(this.willAddQuestion.imgList));
-          this.questions[index].videoList=JSON.parse(JSON.stringify(this.willAddQuestion.videoList));
-          // 大纲更新
-          this.updateOutline(this.willAddQuestion.id, this.willAddQuestion.title);
-          this.qsEditDialogTitle = "";
-          this.qsEditDialogVisible = false;
-          this.$message({
-            type: 'success',
-            message: '修改成功!'
-          });
-          // 重置
-          this.resetWillAdd();
-          this.selectDisAble = false;
-        }
-      }
-      else{
-        if (this.willAddQuestion.title === '') {
-          this.$message({
-            type: 'error',
-            message: '标题不能为空!'
-          });
-        }
-        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistEmptyOption()){
-          this.$message({
-            type: 'error',
-            message: '选项名不能为空!'
-          });
-        }
-        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistSameOption()){
-          this.$message({
-            type: 'error',
-            message: '选项名不能重复!'
-          });
-        }
-        else {
-          this.qsEditDialogVisible = false;
-          this.willAddQuestion.id = this.questions.length + 1;
-          // 大纲更新
-          this.updateOutline(this.willAddQuestion.id, this.willAddQuestion.title);
-          this.questions.push(this.willAddQuestion);
-          this.$message({
-            type: 'success',
-            message: '添加成功!'
-          });
-          // 重置
-          this.resetWillAdd();
-        }
-      }
-      this.saveQnInfo("actionSave", "1")
-    },
-    resetWillAdd(){
-      this.willAddQuestion={
-        question_id: 0,
-        id: 0,
-        type: '',
-        title: '',
-        must: false, // 是否必填
-        is_shown: true,   // 是否显示
-        last_question: 0,   // 前导问题
-        last_option: 0,     // 前导选项
-        description: '', // 问题描述
-        options:[
-          {
-            title: '', // 选项标题
-            id: 1 // 选项id
-          }
-        ],
-        row: 1, // 填空区域行数
-        score: 5, // 最大评分
-        imgList:[],
-        videoList:[]
-      }
+      let questions = this.questions;
+      // 大纲更新
+      this.updateOutline(this.outline.length + 1, questions[index].title);
+      // 问卷更新
+      let temp = this.deepClone(questions[index]);
+      temp.id = questions.length + 1;
+      temp.question_id = 0;
+      questions.push(temp);
+      this.$message.success("问题生成成功");
     },
     dialogCancel: function() {
       this.qsEditDialogTitle="新建题目";
@@ -862,7 +794,7 @@ export default {
       }
       this.qsLogicDialogVisible = false;
       this.resetLogic();
-      this.saveQnInfo("actionSave", "1")
+      this.saveQnInfo("actionSave", "6");
     },
     logic: function (index) {
       this.logicIndex = index-1;
@@ -938,7 +870,7 @@ export default {
       });
     },
     publish() {
-      this.saveQnInfo("actionSave", "1")
+      this.saveQnInfo("actionSave", "6")
       if (this.questions.length === 0) {
         this.$message.error("题目为空，无法发布！");
         return;
@@ -972,7 +904,7 @@ export default {
         .then(res => {
           loadingIns.close();
           if (res.data.status_code === 1) {
-            this.linkShare = this.GLOBAL.baseUrl + '/fill?mode=1&code=' + res.data.code;
+            this.linkShare = this.GLOBAL.baseUrl + '/fill_ai?mode=1&code=' + res.data.code;
 
             if (this.qrcode == null) {
               this.qrcode = new QRCode(document.getElementById("qrcode_2"), {
@@ -1004,10 +936,10 @@ export default {
       this.publish();
     },
     save() {
-      this.saveQnInfo('save', "1");
+      this.saveQnInfo('save', "6");
     },
     preview() {
-      this.saveQnInfo('preview', "1");
+      this.saveQnInfo('preview', "6");
     },
     up: function (index) {
       index--;
@@ -1092,7 +1024,7 @@ export default {
           type: 'warning'
         }).then(() => {
           this.del_relation(index);
-          this.del(index)
+          this.del(index);
           this.$message({
             type: 'success',
             message: '问题及关联信息已成功删除'
@@ -1109,7 +1041,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.del(index)
+          this.del(index);
           this.$message({
             type: 'success',
             message: '删除成功'
@@ -1122,6 +1054,7 @@ export default {
         });
       }
     },
+    
     del: function (index) {
       index--;
       let questions = this.questions;
@@ -1148,26 +1081,17 @@ export default {
         this.updateOutline(num+1, questions[num].title);
       }
     },
-    copy: function (index) {
-      index--;
-      let questions = this.questions;
-      // 大纲更新
-      this.updateOutline(this.outline.length + 1, questions[index].title);
-      // 问卷更新
-      let temp = this.deepClone(questions[index]);
-      temp.id = questions.length+1;
-      temp.question_id = 0;
-      questions.push(temp);
-      this.$message.success("问题复制成功，已粘贴至问卷末尾");
-    },
-    deepClone :function(initialObj) {
+    
+    deepClone: function(initialObj) {
       let obj = {};
       try {
         obj = JSON.parse(JSON.stringify(initialObj));
-        // eslint-disable-next-line no-empty
-      } finally {}
+      } finally {
+        obj = {};
+      }
       return obj;
-    },    // 深拷贝
+    },
+    
     updateOutline: function (id, label) {
       if (label.length > 12) {
         label = id + '. ' + label.substring(0, 11) + '...';
@@ -1181,7 +1105,7 @@ export default {
         this.outline.push({
           id: id,
           label: label,
-        })
+        });
       }
     },
     updateQuestions: function (start, end) {
@@ -1292,8 +1216,7 @@ export default {
         }
       }
       return arr;
-    },
-    // 连带删除关联信息
+    },   
     del_relation: function (index) {
       for (let i=0; i<this.questions.length; i++) {
         // 保存加入后,下面需修改id为question_id
@@ -1336,7 +1259,229 @@ export default {
         this.questions[i].last_option = 0;
         this.questions[i].is_shown = true;
       }
+    }, 
+    edit: function (index) {
+      index--;
+      this.willAddQuestion = {
+        question_id: this.questions[index].question_id,
+        id: this.questions[index].id,
+        type: this.questions[index].type,
+        title: this.questions[index].title,
+        must: this.questions[index].must,
+        description: this.questions[index].description,
+        options: JSON.parse(JSON.stringify(this.questions[index].options)),
+        row: this.questions[index].row,
+        score: this.questions[index].score,
+        is_shown: this.questions[index].is_shown,
+        last_question: this.questions[index].last_question,
+        last_option: this.questions[index].last_option,
+        imgList: JSON.parse(JSON.stringify(this.questions[index].imgList)),
+        videoList: JSON.parse(JSON.stringify(this.questions[index].videoList)),
+      };
+      this.editIndex = index;
+      this.selectDisAble = true;
+      this.qsEditDialogTitle = "编辑题目";
+      this.qsEditDialogVisible = true;
     },
+    
+    isExistEmptyOption: function() {
+      for(let i=0; i<this.willAddQuestion.options.length; i++) {
+        if(this.willAddQuestion.options[i].title === '') return true;
+      }
+      return false;
+    },
+    
+    isExistSameOption: function() {
+      for(let i=0; i<this.willAddQuestion.options.length; i++) {
+        for(let j=0; j<this.willAddQuestion.options.length; j++) {
+          if(i !== j && this.willAddQuestion.options[i].title === this.willAddQuestion.options[j].title) return true;
+        }
+      }
+      return false;
+    },
+    
+    resetWillAdd: function() {
+      this.willAddQuestion = {
+        question_id: 0,
+        id: 0,
+        type: '',
+        title: '',
+        must: false,
+        is_shown: true,
+        last_question: 0,
+        last_option: 0,
+        description: '',
+        options: [
+          {
+            title: '',
+            id: 1
+          }
+        ],
+        row: 1,
+        score: 5,
+        imgList: [],
+        videoList: []
+      };
+    },
+    // AI生成问卷方法
+    generateQuestionnaire() {
+      if (!this.aiPrompt) {
+        this.$message.warning("请输入问卷描述");
+        return;
+      }
+      
+      this.isGenerating = true;
+      
+      // 调用大模型API生成问卷
+      const formData = new FormData();
+      formData.append("prompt", this.aiPrompt);
+      formData.append("qn_id", this.pid);
+      
+      this.$axios({
+        method: 'post',
+        url: '/sm/ai_gen_qn',
+        data: formData,
+      })
+      .then(res => {
+        this.isGenerating = false;
+        
+        if (res.data.status_code === 1) {
+          // 成功生成问卷
+          this.title = res.data.title;
+          this.description = res.data.description;
+          this.questions = res.data.questions;
+          
+          // 更新大纲
+          this.outline = [];
+          for (let i = 0; i < this.questions.length; i++) {
+            this.updateOutline(i+1, this.questions[i].title);
+          }
+          
+          this.$message.success("问卷生成成功");
+        } else {
+          this.$message.error(res.data.message || "生成失败，请重试");
+        }
+      })
+      .catch(err => {
+        this.isGenerating = false;
+        console.log(err);
+        this.$message.error("生成失败，请重试");
+      });
+    },
+    
+    // 重新生成问卷
+    regenerateQuestionnaire() {
+      if (this.questions.length > 0) {
+        if (!this.aiPrompt) {
+          this.$message.warning("请输入问卷描述");
+          return;
+        }
+        
+        this.$confirm('重新生成将覆盖当前问卷内容，确认继续？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.generateQuestionnaire();
+        }).catch(() => {
+          this.$message.info('已取消重新生成');
+        });
+      } else {
+        this.generateQuestionnaire();
+      }
+    },
+    
+    dialogConfirm() {
+      let index = this.editIndex;
+      if(this.qsEditDialogTitle==="编辑题目") {
+        if (this.willAddQuestion.title === '') {
+          this.$message({
+            type: 'error',
+            message: '标题不能为空!'
+          });
+        }
+        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistEmptyOption()){
+          this.$message({
+            type: 'error',
+            message: '选项名不能为空!'
+          });
+        }
+        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistSameOption()){
+          this.$message({
+            type: 'error',
+            message: '选项名不能重复!'
+          });
+        }
+        else {
+          this.questions[index].id = this.willAddQuestion.id;
+          this.questions[index].row = this.willAddQuestion.row;
+          this.questions[index].must = this.willAddQuestion.must;
+          this.questions[index].description = this.willAddQuestion.description;
+          this.questions[index].title = this.willAddQuestion.title;
+          this.questions[index].options = this.willAddQuestion.options;
+          this.questions[index].score = this.willAddQuestion.score;
+          this.questions[index].is_shown = this.willAddQuestion.is_shown;
+          this.questions[index].last_question = this.willAddQuestion.last_question;
+          this.questions[index].last_option = this.willAddQuestion.last_option;
+          this.questions[index].options = JSON.parse(JSON.stringify(this.willAddQuestion.options));
+          this.questions[index].imgList=JSON.parse(JSON.stringify(this.willAddQuestion.imgList));
+          this.questions[index].videoList=JSON.parse(JSON.stringify(this.willAddQuestion.videoList));
+          // 大纲更新
+          this.updateOutline(this.willAddQuestion.id, this.willAddQuestion.title);
+          this.qsEditDialogTitle = "";
+          this.qsEditDialogVisible = false;
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          });
+          // 重置
+          this.resetWillAdd();
+          this.selectDisAble = false;
+        }
+      }
+      else{
+        if (this.willAddQuestion.title === '') {
+          this.$message({
+            type: 'error',
+            message: '标题不能为空!'
+          });
+        }
+        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistEmptyOption()){
+          this.$message({
+            type: 'error',
+            message: '选项名不能为空!'
+          });
+        }
+        else if((this.willAddQuestion.type==="radio"||this.willAddQuestion.type==="checkbox")&&this.isExistSameOption()){
+          this.$message({
+            type: 'error',
+            message: '选项名不能重复!'
+          });
+        }
+        else {
+          this.qsEditDialogVisible = false;
+          this.willAddQuestion.id = this.questions.length + 1;
+          // 大纲更新
+          this.updateOutline(this.willAddQuestion.id, this.willAddQuestion.title);
+          this.questions.push(this.willAddQuestion);
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          });
+          // 重置
+          this.resetWillAdd();
+        }
+      }
+      this.saveQnInfo("actionSave", "6")
+    },
+  },
+  watch: {
+    // 监听问题编辑
+    questions: {
+      handler() {
+      },
+      deep: true
+    }
   },
   computed: {
     questionsFilter: function () {
@@ -1381,68 +1526,243 @@ export default {
 </script>
 
 <style>
-.investigation .linkDialog{
-  text-align: left;
+.edit-ai .ai-side {
+  background: #f8f9fa;
+  border-left: 1px solid #e3e3e3;
+  overflow-y: auto;
 }
-.investigation .container {
-  padding: 0;
+
+.edit-ai .ai-panel {
+  padding: 20px;
   height: auto;
-  min-height: 610px;
 }
 
-.investigation header {
-  padding: 0 100px;
+.edit-ai .ai-header {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.investigation .el-container {
-  padding: 0 100px;
+.edit-ai .ai-header h3 {
+  margin: 0;
+  color: #409eff;
+  font-size: 18px;
 }
 
-.investigation .side {
+.edit-ai .ai-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-ai .ai-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-ai .ai-tips {
+  margin-top: 20px;
+}
+
+.edit-ai .empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.edit-ai .ai-generation-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.edit-ai .ai-prompt-card {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.edit-ai .ai-card-header {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.edit-ai .ai-prompt-input {
+  margin: 20px 0;
+}
+
+.edit-ai .regenerate-area {
+  margin-bottom: 20px;
+}
+
+.edit-ai .regenerate-buttons {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.edit-ai .regenerate-buttons .el-input {
+  margin-right: 10px;
+  flex: 1;
+}
+
+.edit-ai .side {
   border-top: solid 1px #e3e3e3;
   border-right: solid 1px #e3e3e3;
   background: #FFFFFF;
 }
 
-.investigation .main {
-  border-top: solid 1px #e3e3e3;
-  background: #FFFFFF;
+.edit-ai .main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #e3e3e3;
+  background: #ffffff;
 }
 
-.investigation .edit {
+.edit-ai .side-container {
+  padding: 10px;
+}
+
+.edit-ai .side-header {
+  margin-bottom: 20px;
+}
+
+.edit-ai .sideTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.edit-ai .main {
+  border-top: solid 1px #e3e3e3;
+  background: #FFFFFF;
+  padding: 20px 40px;
+}
+
+.edit-ai .qs-block {
+  border: solid 1px #e3e3e3;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px;
+  transition: .3s;
+}
+
+.edit-ai .qs-header {
+  margin-bottom: 10px;
+}
+
+.edit-ai .qs-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.edit-ai .qs-id {
+  margin-right: 5px;
+}
+
+.edit-ai .qs-must {
+  color: red;
+  margin-left: 5px;
+}
+
+.edit-ai .qs-description {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.edit-ai .qs-relation {
+  font-size: 12px;
+  color: #409EFF;
+  margin-top: 5px;
+}
+
+.edit-ai .qs-body {
+  margin-bottom: 10px;
+}
+
+.edit-ai .img-area {
+  margin-top: 10px;
+}
+
+.edit-ai .video-area {
+  margin-top: 10px;
+}
+
+.edit-ai .qs-footer {
+  text-align: right;
+}
+
+.edit-ai .linkDialog{
+  text-align: left;
+}
+
+.edit-ai .container {
+  display: flex;
+  height: calc(100vh - 120px);
+}
+
+.edit-ai header {
+  padding: 0 100px;
+}
+
+.edit-ai .el-container {
+  padding: 0 100px;
+}
+
+.edit-ai .edit {
   margin-top: 0;
   overflow: auto;
   height: 550px;
 }
 
-.investigation .outline {
+.edit-ai .outline {
   overflow: auto;
   height: 550px;
 }
 
-.investigation .ques-type {
-  padding: 15px 0;
-  font-size: 16px;
-  border-bottom: dashed #e3e3e3 1px;
+.edit-ai .ques-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  border-bottom: 1px dashed #e3e3e3;
 }
 
-.investigation .type-icon {
+.edit-ai .ques-type span {
+  flex: 1;
+  margin-left: 10px;
+}
+
+@media (max-width: 1200px) {
+  .edit-ai .side {
+    width: 200px !important;
+  }
+  
+  .edit-ai .ai-side {
+    width: 250px !important;
+  }
+}
+
+.edit-ai .type-icon {
   color: #1687fd;
   display: inline-block;
 }
 
-.investigation .type-icon:hover {
+.edit-ai .type-icon:hover {
   color: #409EFF;
   cursor: pointer;
 }
 
-.investigation .el-tabs__nav-scroll {
+.edit-ai .el-tabs__nav-scroll {
   text-align: center;
   height: 60px;
   margin: 0 60px;
 }
 
-.investigation .el-tabs__item {
+.edit-ai .el-tabs__item {
   font-weight: bold;
   padding: 0 20px;
   height: 60px;
@@ -1455,27 +1775,23 @@ export default {
   position: relative;
 }
 
-.investigation .el-tabs__header {
+.edit-ai .el-tabs__header {
   margin: 0;
 }
 
-.investigation .el-tree-node__content {
+.edit-ai .el-tree-node__content {
   padding-left: 10px !important;
   height: 40px;
 }
 
-.investigation .main {
-  max-height: 610px;
-}
-
-.investigation .ques .title {
+.edit-ai .ques .title {
   font-size: 28px;
   font-weight: bold;
   padding-top: 10px;
   padding-bottom: 26px;
 }
 
-.investigation .ques .description {
+.edit-ai .ques .description {
   text-align: left;
   font-size: 16px;
   padding-bottom: 30px;
@@ -1483,22 +1799,22 @@ export default {
   line-height: 30px;
 }
 
-.investigation .ques-block {
+.edit-ai .ques-block {
   padding-bottom: 15px;
   border-top: solid #e3e3e3 1px;
 }
 
-.investigation .ques-block:hover {
+.edit-ai .ques-block:hover {
   background: #f5f5f5;
   transition: .3s;
 }
 
-.investigation .ques-block .must {
+.edit-ai .ques-block .must {
   font-weight: normal;
   color: crimson;
 }
 
-.investigation .block-title {
+.edit-ai .block-title {
   text-align: left;
   /*border: solid 1px black;*/
   font-size: 16px;
@@ -1506,7 +1822,7 @@ export default {
   font-weight: bold;
 }
 
-.investigation .block-description {
+.edit-ai .block-description {
   text-align: left;
   /*border: solid 1px black;*/
   font-size: 14px;
@@ -1516,55 +1832,55 @@ export default {
   color: #969696;
 }
 
-.investigation .block-choice {
+.edit-ai .block-choice {
   text-align: left;
   /*border: solid 1px black;*/
   font-size: 16px;
   padding: 5px 10px 10px;
 }
 
-.investigation .el-button-group>.el-button:first-child {
+.edit-ai .el-button-group>.el-button:first-child {
   border-radius: 0 0 0 8px;
 }
 
-.investigation .el-button-group>.el-button:last-child {
+.edit-ai .el-button-group>.el-button:last-child {
   border-radius: 0 0 8px 0;
 }
 
-.investigation .block-button .el-button {
+.edit-ai .block-button .el-button {
   background: #b9b9b9;
   border: transparent;
   padding: 12px 16px;
   font-size: 16px;
 }
 
-.investigation .block-button .el-button:hover {
+.edit-ai .block-button .el-button:hover {
   background: #989898;
   border: transparent;
 }
 
-.investigation .bt {
+.edit-ai .bt {
   color: white;
   font-size: 14px;
   font-weight: bold;
 }
 
-.investigation .block-choice .el-textarea__inner {
+.edit-ai .block-choice .el-textarea__inner {
   max-height: 100px;
 }
-.investigation .dialog{
+.edit-ai .dialog{
   text-align: left;
   font-size: large;
 }
-.investigation .addOptionButton{
+.edit-ai .addOptionButton{
   display: inline-block;
   margin-left: 100px;
 }
-.investigation .deleteOptionButton{
+.edit-ai .deleteOptionButton{
   margin-left: 20px;
 }
 
-.investigation .logic-description {
+.edit-ai .logic-description {
   margin-top: -15px;
   margin-bottom: 30px;
   text-align: left;
@@ -1573,33 +1889,33 @@ export default {
   color: #aaaaaa;
 }
 
-.investigation .important {
+.edit-ai .important {
   color: crimson;
 }
 
-.investigation .logic-title {
+.edit-ai .logic-title {
   font-size: 16px;
   font-weight: bold;
   padding-left: 12px;
   padding-bottom: 30px;
 }
 
-.investigation .logic-bt {
+.edit-ai .logic-bt {
   text-align: center;
 }
 
-.investigation .logic-form .el-input--suffix .el-input__inner {
+.edit-ai .logic-form .el-input--suffix .el-input__inner {
   width: 620px;
 }
 
-.investigation .logic-info {
+.edit-ai .logic-info {
   color: #aaaaaa;
   padding-top: 2px;
   padding-left: 12px;
   padding-bottom: 25px;
 }
 
-.investigation .block-relation {
+.edit-ai .block-relation {
   text-align: right;
   /*border: solid 1px black;*/
   font-size: 14px;

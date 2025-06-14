@@ -41,10 +41,11 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="0">所有</el-dropdown-item>
                   <el-dropdown-item command="1">调查问卷</el-dropdown-item>
-                  <!-- <el-dropdown-item command="2">考试问卷</el-dropdown-item> -->
-                  <!-- <el-dropdown-item command="3">投票问卷</el-dropdown-item> -->
+                  <el-dropdown-item command="2">考试问卷</el-dropdown-item>
+                  <el-dropdown-item command="3">投票问卷</el-dropdown-item>
                   <el-dropdown-item command="4">表单问卷</el-dropdown-item>
-                  <!-- <el-dropdown-item command="5">打卡问卷</el-dropdown-item> -->
+                  <el-dropdown-item command="5">打卡问卷</el-dropdown-item>
+                  <el-dropdown-item command="6">AI问卷</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
@@ -246,6 +247,9 @@ export default {
               break;
             case "5":
               this.linkShare = this.GLOBAL.baseUrl + "/fill_hate?mode=1&code=" + res.data.code;
+              break;
+            case "6":
+              this.linkShare = this.GLOBAL.baseUrl + "/fill_ai?mode=1&code=" + res.data.code;
               break;
           }
 
@@ -450,6 +454,9 @@ export default {
                 case "5":
                   this.linkShare = this.GLOBAL.baseUrl + "/fill_hate?mode=1&code=" + res.data.code;
                   break;
+                case "6":
+                  this.linkShare = this.GLOBAL.baseUrl + "/fill_ai?mode=1&code=" + res.data.code;
+                  break;
               }
 
               if (this.qrcode == null) {
@@ -643,6 +650,9 @@ export default {
         case "5":
           location.href = 'edit_hate?pid=' + this.QnList[index].survey_id;
           break;
+        case "6":
+          location.href = 'edit_ai?pid=' + this.QnList[index].survey_id;
+          break;
       }
     },
 
@@ -673,6 +683,8 @@ export default {
           return 'preview_form?pid=' + index.survey_id + '&mode=0';
         case "5":
           return 'preview_hate?pid=' + index.survey_id + '&mode=0';
+        case "6":
+          return 'preview_ai?pid=' + index.survey_id + '&mode=0';
       }
     },
 
@@ -969,6 +981,9 @@ export default {
           break;
         case "5":
           this.qnValue = "打卡问卷";
+          break;
+        case "6":
+          this.qnValue = "AI问卷";
           break;
       }
       this.searchQns(1);

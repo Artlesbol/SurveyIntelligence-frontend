@@ -13,13 +13,15 @@ export default class GlobalInfo {
         'preview_test',
         'preview_vote',
         'preview_form',
-        'preview_hate'
+        'preview_hate',
+        'preview_ai'
     ];
     static fillUrl = [
         'fill',
         'fill_test',
         'fill_vote',
         'fill_form',
-        'fill_hate'
+        'fill_hate',
+        'fill_ai'
     ];
 }

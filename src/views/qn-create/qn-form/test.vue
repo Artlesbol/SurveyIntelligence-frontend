@@ -941,6 +941,7 @@ export default {
           this.resetWillAdd();
         }
       }
+      this.saveQnInfo("actionSave", "2")
     },
     resetWillAdd(){
       this.willAddQuestion={
@@ -1012,6 +1013,7 @@ export default {
       }
       this.qsLogicDialogVisible = false;
       this.resetLogic();
+      this.saveQnInfo("actionSave", "2")
     },
     logic: function (index) {
       this.logicIndex = index-1;
@@ -1127,6 +1129,7 @@ export default {
       this.publish();
     },
     publish() {
+      this.saveQnInfo("actionSave", "2")
       if (this.questions.length === 0) {
         this.$message.error("题目为空，无法发布！");
         return;

@@ -724,6 +724,7 @@ export default {
           this.resetWillAdd();
         }
       }
+      this.saveQnInfo("actionSave", "5")
     },
     resetWillAdd(){
       this.willAddQuestion={
@@ -794,6 +795,7 @@ export default {
       });
     },
     publish() {
+      this.saveQnInfo("actionSave", "5")
       if (this.questions.length === 0) {
         this.$message.error("题目为空，无法发布！");
         return;

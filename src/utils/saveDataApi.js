@@ -17,6 +17,9 @@ export default {
                 case '5':
                     url = '/ep/save_ans_by_code';
                     break;
+                case '6':
+                    url = '/qn/save_ans';
+                    break;
             }
             // 必选检查
             let answers = this.answers;
@@ -154,6 +157,9 @@ export default {
                     url = '/sm/save/qn_keep/history';
                     break;
                 case "5":
+                    url = '/sm/save/qn_keep/history';
+                    break;
+                case "6":
                     url = '/sm/save/qn_keep/history';
                     break;
             }

@@ -89,6 +89,11 @@ const routes = [
         component: () => import('../views/qn-create/qn-form/punch'),
     },
     {
+        path: '/edit_ai',
+        name: 'EditAI',
+        component: () => import('../views/qn-create/qn-form/ai.vue'),
+    },
+    {
         path: '/fill',
         name: 'FillQn',
         component: () => import('../views/qn-fill/FillQn'),
@@ -124,6 +129,14 @@ const routes = [
         path: '/fill_vote',
         name: 'FillVote',
         component: () => import('../views/qn-fill/FillQnVote'),
+        meta: {
+            noNav: true
+        }
+    },
+    {
+        path: '/fill_ai',
+        name: 'FillAI',
+        component: () => import('../views/qn-fill/FillQnAI'),
         meta: {
             noNav: true
         }
@@ -167,6 +180,11 @@ const routes = [
         meta: {
             noNav: true
         }
+    },
+    {
+        path: '/preview_ai',
+        name: 'PreviewAI',
+        component: () => import('../views/qn-fill/FillQnAI'),
     },
     {
         path: '/test_result',

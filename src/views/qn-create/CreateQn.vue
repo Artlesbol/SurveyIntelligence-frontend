@@ -69,10 +69,17 @@
         </el-card>
       </el-col>
       <el-col :span="6">
-        <el-card class="box-card">
-          <div><img class="image" src="../../assets/images/wen.png" alt="more_img"></div>
-          <span><h3 style="height: 350px;margin: auto">更多内容 敬请期待......</h3><br></span>
-        </el-card>
+        <el-card class="box-card" @mouseover.native="isHoverAI=true" @mouseout.native="isHoverAI=false">
+            <img class="image" src="../../assets/images/ai.png" alt="ai_img">
+            <span ><h3>AI生成</h3></span>
+            <div v-if="isHoverAI">
+              <el-button type="warning" @click="dialogVisible=true;quesType=6">立即创建</el-button>
+            </div>
+            <div class="describe" v-else>
+              <el-row>智能生成，一键创建</el-row>
+              <el-row>自然语言，高效便捷</el-row>
+            </div>
+          </el-card>
       </el-col>
     </el-row>
 
@@ -100,6 +107,7 @@ export default {
       isHoverForm: false,
       isHoverVote: false,
       isHoverPunch: false,
+      isHoverAI: false,
       dialogVisible :false,
       quesType: 1,
       surveyTitle: "",
@@ -134,6 +142,10 @@ export default {
         case 5:
           formData.append("type", "5");
           editUrlName = 'EditHate';
+          break;
+        case 6:
+          formData.append("type", "6");
+          editUrlName = 'EditAI';
           break;
       }
 
