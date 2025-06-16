@@ -51,18 +51,16 @@ export default {
   methods: {
     getData() {
       var title;
-      var choosed;
+      var chose;
       for (var i=0; i<this.data.length; i++) {
         title = this.data[i].title;
-        choosed = this.data[i].choosed;
+        chose = this.data[i].chose;
         if (this.type === 'mark') {
           this.chart4_name.push((i+1).toString());
-        } else if (this.data.length > 5 ||(title.length > 5 && this.data.length >= 4)) {
-          this.chart4_name.push("选项" + (i+1).toString());
         } else {
           this.chart4_name.push(title);
         }
-        this.chart4_data.push(choosed);
+        this.chart4_data.push(chose);
       }
     },
  
@@ -94,6 +92,27 @@ export default {
                     data:this.chart4_name,
                     axisPointer: {
                         type: 'shadow'
+                    },
+                    axisLabel: {
+                        show: true,
+                        interval: 0, // 强制显示所有标签
+                        formatter: function (value) {
+                            var ret = "";
+                            var maxLength = 4;
+                            var rowNumber = Math.ceil(value.length / maxLength);
+                            if (rowNumber > 1) {
+                                for (var i = 0; i < rowNumber; i++) {
+                                    var start = i * maxLength;
+                                    var end = start + maxLength;
+                                    var temp = value.substring(start, end) + "\n";
+                                    ret += temp;
+                                }
+                                return ret;
+                            } else {
+                                return value;
+                            }
+                        },
+                        margin: 15 // 增加标签的边距
                     }
                 }
             ],

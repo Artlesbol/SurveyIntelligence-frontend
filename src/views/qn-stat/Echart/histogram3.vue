@@ -52,18 +52,16 @@ export default {
   methods: {
     getData() {
       var title;
-      var choosed;
+      var chose;
       for (var i=0; i<this.data.length; i++) {
         title = this.data[i].title;
-        choosed = this.data[i].choosed;
+        chose = this.data[i].chose;
         if (this.type === 'mark') {
           this.chart1_name.push((i+1).toString());
-        } else if (this.data.length > 5 ||(title.length > 5 && this.data.length >= 4)) {
-          this.chart1_name.push("选项" + (i+1).toString());
         } else {
           this.chart1_name.push(title);
         }
-        this.chart1_data.push(choosed);
+        this.chart1_data.push(chose);
       }
     },
     showChart1()
@@ -80,8 +78,29 @@ export default {
                 }
             },
             xAxis: {
-                data:this.chart1_name,
-                name: '选项'
+                data: this.chart1_name,
+                name: '选项',
+                axisLabel: {
+                    interval: 0,
+                    formatter: function (value) {
+                        var ret = "";
+                        var maxLength = 4;
+                        var rowNumber = Math.ceil(value.length / maxLength);
+                        if (rowNumber > 1) {
+                            for (var i = 0; i < rowNumber; i++) {
+                                var start = i * maxLength;
+                                var end = start + maxLength;
+                                var temp = value.substring(start, end) + "\n";
+                                ret += temp;
+                            }
+                            return ret;
+                        } else {
+                            return value;
+                        }
+                    },
+                    rotate: 0, // 如果需要，可以设置标签旋转角度
+                    margin: 15 // 增加标签的边距
+                }
             },
             yAxis: {
                 type: 'value',

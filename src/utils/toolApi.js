@@ -17,8 +17,17 @@ export default {
          * @returns {string}
          */
         getStrClear(text) {
-            var t = this.getParenthesesStr(text);
-            return t.substr(0, t.length - 1);
+            try {
+                var re = /\((.+?)\)/g;
+                var match = text.match(re);
+                if (!match || match.length === 0) return text;
+                var t = match[0];
+                t = t.substring(1, t.length - 1);
+                return t.endsWith('%') ? t.substr(0, t.length - 1) : t;
+            } catch (e) {
+                console.error("Error parsing text:", text, e);
+                return text;
+            }
         },
         /**
          * 字符串到数字序列的映射

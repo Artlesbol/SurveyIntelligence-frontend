@@ -193,7 +193,25 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        title:"",
+        description:"",
+        indexnum: 0,
+        dialogVisible: false,
+        currentPage: 1,
+        pageSize: 7,
+        pageSizes:[3,5,7],
+        loading: true,
+
+        is_test: false, //是考试问卷
+        user_name: '', //填写人
+        rank: 0, //排名
+        score: 0, //个人得分
+        sum_score: 0, //总分
+        answers:[],
+        questions: [],
+        tableData: [],
+      }
     },
     created() {
       let loadingIns = this.$loading({fullscreen: true, text: '拼命加载中'});

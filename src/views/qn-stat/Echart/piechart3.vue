@@ -51,24 +51,21 @@ export default {
     getData() {
       console.log(this.data);
       var title;
-      var choosed;
+      var chose;
       for (var i=0; i<this.data.length; i++) {
         title = this.data[i].title;
-        choosed = this.data[i].choosed;
+        chose = this.data[i].chose;
         if (this.type === 'mark') {
           title = (i+1).toString();
-        } else if (this.data.length > 5 ||(title.length > 5 && this.data.length >= 4)) {
-          title = "选项" + (i+1).toString();
         }
         this.chart2_data.push({
-          value: choosed,
+          value: chose,
           name: title
         });
       }
     },
     showChart2()
     {
-
       // 基于准备好的dom，初始化echarts实例
       let myChart2 = this.$echarts.init(document.getElementById('myChart2'))
       // 绘制图表
@@ -88,6 +85,38 @@ export default {
                 radius : '55%',
                 // center: ['50%', '50%'],
                 data: this.chart2_data,
+                label: {
+                    formatter: function(params) {
+                        var name = params.name;
+                        var maxLength = 4;
+                        var rowNumber = Math.ceil(name.length / maxLength);
+                        var result = '';
+                        
+                        if (rowNumber > 1) {
+                            for (var i = 0; i < rowNumber; i++) {
+                                var start = i * maxLength;
+                                var end = start + maxLength;
+                                result += name.substring(start, end);
+                                if (i < rowNumber - 1) {
+                                    result += '\n';
+                                }
+                            }
+                            return result;
+                        } else {
+                            return name;
+                        }
+                    },
+                    rich: {
+                        a: {
+                            lineHeight: 20
+                        }
+                    }
+                },
+                // 增加标签与图形的距离
+                labelLine: {
+                    length: 15,
+                    length2: 10
+                }
             }
       };
 

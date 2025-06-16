@@ -101,7 +101,7 @@
                   >
                   </el-table-column>
                   <el-table-column
-                    prop=choosed
+                    prop=chose
                     label="选择人数"
                     >
                   </el-table-column>

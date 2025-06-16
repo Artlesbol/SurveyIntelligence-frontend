@@ -8,9 +8,9 @@
                       <el-select v-model="value1" placeholder="请选择">
                         <el-option
                         v-for="item in questions"
-                        :key="item.value1"
+                        :key="item.question_id"
                         :label="item.label"
-                        :value="item.value1">
+                        :value="item.question_id">
                         </el-option>
                     </el-select>
                 </div>
@@ -19,9 +19,9 @@
                       <el-select v-model="value2" placeholder="请选择">
                         <el-option
                         v-for="item in questions"
-                        :key="item.value2"
+                        :key="item.question_id"
                         :label="item.label"
-                        :value="item.value2">
+                        :value="item.question_id">
                         </el-option>
                     </el-select>
                 </div>
@@ -31,9 +31,9 @@
             </div>
             <div v-if="ans" v-loading="loading">
               <div>
-                <span class="axis" style="margin-top:10px; margin-bottom:10px">x: {{questions[value1-1].label}}</span>
+                <span class="axis" style="margin-top:10px; margin-bottom:10px">x: {{questions.find(q => q.question_id === value1)?.label}}</span>
                 <i class="el-icon-sort"></i>
-                <span class="axis" style="margin-bottom:20px; margin-top: 10px">y: {{questions[value2-1].label}}</span>
+                <span class="axis" style="margin-bottom:20px; margin-top: 10px">y: {{questions.find(q => q.question_id === value1)?.label}}</span>
               </div>
               <div>
               <el-table style="width: 100%" border :data="tableData" >
@@ -216,10 +216,8 @@ import toolApi from "@/utils/toolApi";
         this.ans = true;
 
         const formData = new FormData();
-        var id_1 = this.questions[this.value1-1].question_id;
-        var id_2 = this.questions[this.value2-1].question_id;
-        formData.append("question_id_1", id_1);
-        formData.append("question_id_2", id_2);
+        formData.append("question_id_1", this.value1);
+        formData.append("question_id_2", this.value2);
         this.$axios({
           method: 'post',
           url: '/sm/cross/analysis',
@@ -238,17 +236,19 @@ import toolApi from "@/utils/toolApi";
             this.computeRayData();
 
             //-------------------------------mount
-            switch (this.choose) {
-              case 1:
-                this.$refs.his.showChart1();
-                break;
-              case 2:
-                this.$refs.lin.showChart4();
-                break;
-              case 3:
-                this.$refs.ray.showChart2();
-                break;
-            }
+            this.$nextTick(() => {
+              switch (this.choose) {
+                case 1:
+                  this.$refs.his.showChart1();
+                  break;
+                case 2:
+                  this.$refs.lin.showChart4();
+                  break;
+                case 3:
+                  this.$refs.ray.showChart2();
+                  break;
+              }
+            });
           } else {
             this.$message.error("操作失败");
           }
