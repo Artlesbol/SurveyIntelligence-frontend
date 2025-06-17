@@ -211,7 +211,7 @@
             <div class="ai-buttons">
               <el-button 
                   :type="questions.length === 0 ? 'primary' : 'danger'" 
-                  @click="generateQuestionnaire" 
+                  @click="questions.length === 0 ? generateQuestionnaire() : regenerateQuestionnaire()"
                   :loading="isGenerating"
                   style="width: 100%; margin-bottom: 10px;">
                 {{questions.length === 0 ? '生成问卷' : '重新生成'}}<br>
@@ -1326,7 +1326,7 @@ export default {
     // AI生成问卷方法
     generateQuestionnaire() {
       if (!this.aiPrompt) {
-        this.$message.warning("请输入问卷描述");
+        this.$message.warning("请输入提示词");
         return;
       }
       
@@ -1343,29 +1343,25 @@ export default {
         data: formData,
       })
       .then(res => {
-        this.isGenerating = false;
-        
-        if (res.data.status_code === 1) {
-          // 成功生成问卷
-          this.title = res.data.title;
-          this.description = res.data.description;
-          this.questions = res.data.questions;
-          
-          // 更新大纲
-          this.outline = [];
-          for (let i = 0; i < this.questions.length; i++) {
-            this.updateOutline(i+1, this.questions[i].title);
+        try {
+          if (res.data.status_code === 1) {
+            // 成功生成问卷
+            this.getQnDataSelf();
+            this.$message.success("问卷生成成功");
+            this.isGenerating = false;
+          } else {
+            this.$message.error(res.data.message || "生成失败，请重试");
+            this.isGenerating = false;
           }
-          
-          this.$message.success("问卷生成成功");
-        } else {
-          this.$message.error(res.data.message || "生成失败，请重试");
+        } catch (error) {
+          console.error('gen:', error)
+          this.isGenerating = false;
         }
       })
       .catch(err => {
-        this.isGenerating = false;
-        console.log(err);
+        console.error(err);
         this.$message.error("生成失败，请重试");
+        this.isGenerating = false;
       });
     },
     
@@ -1373,7 +1369,7 @@ export default {
     regenerateQuestionnaire() {
       if (this.questions.length > 0) {
         if (!this.aiPrompt) {
-          this.$message.warning("请输入问卷描述");
+          this.$message.warning("请输入提示词");
           return;
         }
         
