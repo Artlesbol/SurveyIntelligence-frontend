@@ -82,18 +82,6 @@
               </el-carousel>
             </div>
           </el-col>
-          <el-col :span="7" offset="2">
-            <div id="qrcode">
-              <div style="margin-top:10px; margin-left:70px; margin-bottom:10px; font-size:14px">
-                <span>使用过程出现问题？</span><br>
-                <span>扫码填写</span><span id="feedback">反馈问卷</span>
-              </div>
-              <el-image
-                style="width: 250px; height: 250px; "
-                :src="require('../../assets/images/example.jpg')"
-                :fit="fit"></el-image>
-            </div>
-          </el-col>
         </el-row>
       </div>
 
@@ -202,8 +190,8 @@ export default{
     /* margin-top: 15px; */
   }
   #introduction .el-carousel{
-    height: 300px;
-    margin-left: 25px;
+    height: auto;
+    margin-left: 0;
     margin-bottom: 50px;
     margin-top: 10px;
   }
